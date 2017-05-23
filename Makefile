@@ -56,11 +56,11 @@ SRC_C                      += lib_lib.c lib_systime.c pool.c printf.c lib_std.c 
 #drv
 SRC_C                      += stm32_pin.c stm32_gpio.c stm32_power.c stm32_timer.c stm32_rtc.c stm32_core.c stm32_uart.c stm32_usb.c
 #midware 
-#SRC_C					   += cdc_acmd.c usbd.c
+SRC_C					   += ccidd.c usbd.c
 #userspace lib
-SRC_C                      += ipc.c io.c process.c stdio.c stdlib.c systime.c time.c uart.c power.c stream.c pin.c htimer.c
+SRC_C                      += ipc.c io.c process.c stdio.c stdlib.c systime.c time.c uart.c power.c stream.c pin.c htimer.c usb.c
 #app
-SRC_C                      += app.c leds.c
+SRC_C                      += app.c app_ccid.c app_usb.c leds.c 
  
 OBJ                         = $(SRC_AS:%.S=%.o) $(SRC_C:%.c=%.o)
 #----------------------------------------------------------

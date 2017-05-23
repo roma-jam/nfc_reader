@@ -46,8 +46,8 @@
 //----------------------------- USB device--------------------------------------------
 //all other device-related debug depends on this
 #define USBD_DEBUG                                          1
-#define USBD_DEBUG_ERRORS                                   0
-#define USBD_DEBUG_REQUESTS                                 0
+#define USBD_DEBUG_ERRORS                                   1
+#define USBD_DEBUG_REQUESTS                                 1
 //enable only for USB driver development
 #define USBD_DEBUG_FLOW                                     0
 
@@ -56,10 +56,10 @@
 
 #define USBD_IO_SIZE                                        128
 
-#define USBD_CDC_ACM_CLASS                                  1
+#define USBD_CDC_ACM_CLASS                                  0
 #define USBD_RNDIS_CLASS                                    0
 #define USBD_HID_KBD_CLASS                                  0
-#define USBD_CCID_CLASS                                     0
+#define USBD_CCID_CLASS                                     1
 #define USBD_MSC_CLASS                                      0
 
 //----------------------- CDC ACM Device class ----------------------------------------
@@ -85,10 +85,10 @@
 #define USBD_HID_DEBUG_IO                                   0
 
 //----------------------------- CCIDD class -------------------------------------------
-#define USBD_CCID_REMOVABLE_CARD                            0
+#define USBD_CCID_REMOVABLE_CARD                            1
 
-#define USBD_CCID_DEBUG_ERRORS                              0
-#define USBD_CCID_DEBUG_REQUESTS                            0
+#define USBD_CCID_DEBUG_ERRORS                              1
+#define USBD_CCID_DEBUG_REQUESTS                            1
 #define USBD_CCID_DEBUG_IO                                  0
 
 //------------------------------ MSCD class -------------------------------------------

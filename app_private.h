@@ -8,7 +8,8 @@
 #define APP_PRIVATE_H
 
 #include "app.h"
-#include <stdint.h>
+#include "../rexos/userspace/types.h"
+#include "../rexos/userspace/ipc.h"
 #include "leds.h"
 
 typedef enum {
@@ -16,7 +17,9 @@ typedef enum {
 } HAL_APP_GROUPS;
 
 typedef struct _APP {
-    HANDLE timer;
+    HANDLE usbd;
+    bool usb_started;
+
     LEDS leds;
 } APP;
 

@@ -17,6 +17,8 @@
 #include "../rexos/userspace/gpio.h"
 #include "../rexos/userspace/irq.h"
 #include "app_private.h"
+#include "app_ccid.h"
+#include "app_usb.h"
 #include "config.h"
 #include "leds.h"
 
@@ -67,23 +69,21 @@ void app()
 
     app_init(&app);
     leds_init(&app);
+    app_usb_init(&app);
+
     sleep_ms(200);
     process_info();
-
-    app.timer = timer_create(0, HAL_APP);
-    timer_start_ms(app.timer, 1000);
 
     for (;;)
     {
         ipc_read(&ipc);
         switch (HAL_GROUP(ipc.cmd))
         {
-        case HAL_APP:
-            printf("TO\n");
-            timer_start_ms(app.timer, 1000);
-        break;
         case HAL_USBD:
-            // template
+            app_usb_request(&app, &ipc);
+            break;
+        case HAL_USBD_IFACE:
+            app_ccid_request(&app, &ipc);
             break;
         default:
             error(ERROR_NOT_SUPPORTED);

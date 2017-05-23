@@ -43,7 +43,7 @@
 //STM32L0 || STM32L
 #define MSI_RANGE                               6
 
-#define PLL_MUL                                 8
+#define PLL_MUL                                 12
 #define PLL_DIV                                 4
 
 //STM32F10X_CL only
