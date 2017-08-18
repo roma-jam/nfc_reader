@@ -131,17 +131,9 @@ const char __STRING_WLANGS[] = {
 };
 
 const char __STRING_MANUFACTURER[] = {
-    12 * 2 + 2,                                                             /*bLength*/
+    4 * 2 + 2,                                                             /*bLength*/
     USB_STRING_DESCRIPTOR_TYPE,                                             /*bDescriptorType*/
     'O', 0,
-    's', 0,
-    't', 0,
-    'r', 0,
-    'a', 0,
-    'n', 0,
-    'n', 0,
-    'a', 0,
-    ' ', 0,
     'B', 0,
     'B', 0,
     'S', 0

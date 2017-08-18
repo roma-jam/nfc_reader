@@ -16,9 +16,11 @@
 #include "../rexos/userspace/pin.h"
 #include "../rexos/userspace/gpio.h"
 #include "../rexos/userspace/irq.h"
+#include "../rexos/userspace/ccid.h"
 #include "app_private.h"
 #include "app_ccid.h"
 #include "app_usb.h"
+#include "app_nfc.h"
 #include "config.h"
 #include "leds.h"
 
@@ -70,9 +72,12 @@ void app()
     app_init(&app);
     leds_init(&app);
     app_usb_init(&app);
+    app_nfc_init(&app);
 
-    sleep_ms(200);
+
+    sleep_ms(600);
     process_info();
+
 
     for (;;)
     {

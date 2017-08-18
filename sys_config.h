@@ -47,7 +47,7 @@
 //all other device-related debug depends on this
 #define USBD_DEBUG                                          1
 #define USBD_DEBUG_ERRORS                                   1
-#define USBD_DEBUG_REQUESTS                                 1
+#define USBD_DEBUG_REQUESTS                                 0
 //enable only for USB driver development
 #define USBD_DEBUG_FLOW                                     0
 
@@ -86,9 +86,10 @@
 
 //----------------------------- CCIDD class -------------------------------------------
 #define USBD_CCID_REMOVABLE_CARD                            1
+#define USBD_CCID_WTX_TIMEOUT_MS                            2000
 
 #define USBD_CCID_DEBUG_ERRORS                              1
-#define USBD_CCID_DEBUG_REQUESTS                            1
+#define USBD_CCID_DEBUG_REQUESTS                            0
 #define USBD_CCID_DEBUG_IO                                  0
 
 //------------------------------ MSCD class -------------------------------------------

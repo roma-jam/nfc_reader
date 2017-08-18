@@ -60,7 +60,7 @@ SRC_C					   += ccidd.c usbd.c
 #userspace lib
 SRC_C                      += ipc.c io.c process.c stdio.c stdlib.c systime.c time.c uart.c power.c stream.c pin.c htimer.c usb.c
 #app
-SRC_C                      += app.c app_ccid.c app_usb.c leds.c 
+SRC_C                      += app.c app_ccid.c app_usb.c leds.c app_nfc.c
  
 OBJ                         = $(SRC_AS:%.S=%.o) $(SRC_C:%.c=%.o)
 #----------------------------------------------------------

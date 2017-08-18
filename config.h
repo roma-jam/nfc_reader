@@ -52,5 +52,6 @@
 
 #define APP_DEBUG_USB                               1
 #define APP_DEBUG_CCID                              1
+#define APP_DEBUG_NFC                               1
 
 #endif // CONFIG_H
