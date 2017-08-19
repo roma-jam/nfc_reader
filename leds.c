@@ -75,7 +75,7 @@ void leds_init(APP* app)
     htimer_setup_channel(LED_TIM, LED_RED_CHANNEL, TIMER_CHANNEL_PWM, 0x00);
     htimer_setup_channel(LED_TIM, LED_BLUE_CHANNEL, TIMER_CHANNEL_PWM, 0x00);
     htimer_setup_channel(LED_TIM, LED_ORANGE_CHANNEL, TIMER_CHANNEL_PWM, 0x00);
-    htimer_start(LED_TIM, TIMER_VALUE_CLK, 999);
+    htimer_start(LED_TIM, TIMER_VALUE_US, 8);
 
     htimer_open(LED_BLINK_TIM, TIMER_IRQ_ENABLE);
     htimer_setup_channel(LED_BLINK_TIM, LED_BLINK_TIM_CHANNEL, TIMER_CHANNEL_GENERAL, 0);

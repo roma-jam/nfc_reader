@@ -10,8 +10,18 @@
 
 #include "app.h"
 #include "../rexos/userspace/io.h"
+#include "../rexos/userspace/stdio.h"
+#include "../rexos/userspace/error.h"
+#include "../rexos/userspace/process.h"
+
+typedef enum {
+    NFC_RESET = IPC_USER,
+    NFC_FIELD_ON,
+    NFC_FIELD_OFF,
+    NFC_DATA_EXCHANGE
+} NFC_IPCS;
 
 void app_nfc_init(APP *app);
-void app_nfc_request(APP* app, IO* io);
+//void app_nfc_request(APP* app, IO* io);
 
 #endif /* APP_NFC_H_ */

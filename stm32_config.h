@@ -12,10 +12,11 @@
 #define STM32_DAC_DRIVER                        0
 #define STM32_WDT_DRIVER                        0
 #define STM32_EEP_DRIVER                        0
+#define STM32_FLASH_DRIVER                      0
 #define STM32_I2C_DRIVER                        0
-#define STM32_SPI_DRIVER                        0
+#define STM32_SPI_DRIVER                        1
 #define STM32_UART_DRIVER                       1
-#define STM32_RTC_DRIVER                        1
+#define STM32_RTC_DRIVER                        0
 #define STM32_USB_DRIVER                        1
 //------------------------------ CORE ------------------------------------------------
 //Sizeof CORE process stack. Adjust, if monolith UART/USB/Analog/etc is used
@@ -41,7 +42,7 @@
 #define LSE_VALUE                               0
 
 //STM32L0 || STM32L
-#define MSI_RANGE                               6
+#define MSI_RANGE                               0
 
 #define PLL_MUL                                 12
 #define PLL_DIV                                 4
@@ -60,7 +61,7 @@
 //------------------------------ TIMER -----------------------------------------------
 #define HPET_TIMER                              TIM_6
 //only required if no STM32_RTC_DRIVER is set
-#define SECOND_PULSE_TIMER                      0
+#define SECOND_PULSE_TIMER                      TIM_3
 //disable to save few bytes
 #define TIMER_IO                                1
 //------------------------------- ADC ------------------------------------------------

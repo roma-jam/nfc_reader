@@ -35,13 +35,15 @@ CMSIS_DEVICE_DIR            = $(CMSIS_DIR)/Device/ST/STM32L1xx
 #not used in kernel
 INCLUDE_FOLDERS             = $(CMSIS_DIR)/Include $(CMSIS_DEVICE_DIR)/Include
 #kernel
-INCLUDE_FOLDERS            += $(KERNEL) $(KERNEL)/core
+INCLUDE_FOLDERS            += $(KERNEL) $(KERNEL)/core $(KERNEL)/stm32
 #lib
 INCLUDE_FOLDERS            += $(LIB)
 #userspace
 INCLUDE_FOLDERS            += $(USERSPACE) $(USERSPACE)/core $(USERSPACE)/stm32
 #sys
-INCLUDE_FOLDERS            += $(REXOS)/drv $(REXOS)/drv/stm32 $(REXOS)/midware $(REXOS)/midware/usbd
+INCLUDE_FOLDERS            += $(REXOS)/drv $(REXOS)/midware $(REXOS)/midware/usbd
+#drivers
+INCLUDE_FOLDERS				+= pn532
 
 INCLUDES                    = $(INCLUDE_FOLDERS:%=-I%)
 VPATH                      += $(INCLUDE_FOLDERS)
@@ -54,13 +56,13 @@ SRC_C                      += kernel.c dbg.c kstdlib.c karray.c kso.c kirq.c kpr
 #lib
 SRC_C                      += lib_lib.c lib_systime.c pool.c printf.c lib_std.c lib_stdio.c lib_array.c lib_so.c
 #drv
-SRC_C                      += stm32_pin.c stm32_gpio.c stm32_power.c stm32_timer.c stm32_rtc.c stm32_core.c stm32_uart.c stm32_usb.c
+SRC_C                      += stm32_pin.c stm32_gpio.c stm32_power.c stm32_timer.c stm32_rtc.c stm32_exo.c stm32_uart.c stm32_usb.c stm32_spi.c
 #midware 
 SRC_C					   += ccidd.c usbd.c
 #userspace lib
-SRC_C                      += ipc.c io.c process.c stdio.c stdlib.c systime.c time.c uart.c power.c stream.c pin.c htimer.c usb.c
+SRC_C                      += ipc.c io.c process.c stdio.c stdlib.c systime.c time.c uart.c power.c stream.c pin.c htimer.c usb.c spi.c
 #app
-SRC_C                      += app.c app_ccid.c app_usb.c leds.c app_nfc.c
+SRC_C                      += app.c app_ccid.c app_usb.c leds.c app_nfc.c pn532.c
  
 OBJ                         = $(SRC_AS:%.S=%.o) $(SRC_C:%.c=%.o)
 #----------------------------------------------------------

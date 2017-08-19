@@ -17,6 +17,7 @@
 #include "../rexos/userspace/gpio.h"
 #include "../rexos/userspace/irq.h"
 #include "../rexos/userspace/ccid.h"
+#include "../rexos/userspace/spi.h"
 #include "app_private.h"
 #include "app_ccid.h"
 #include "app_usb.h"
@@ -57,7 +58,6 @@ static inline void app_setup_dbg()
 
 static inline void app_init(APP* app)
 {
-    process_create(&__STM32_CORE);
 #if (APP_DEBUG)
     app_setup_dbg();
     printf("NFC Reader, CPU %d MHz\n", power_get_core_clock()/1000000);
@@ -71,9 +71,9 @@ void app()
 
     app_init(&app);
     leds_init(&app);
-    app_usb_init(&app);
-    app_nfc_init(&app);
+//    app_usb_init(&app);
 
+    app_nfc_init(&app);
 
     sleep_ms(600);
     process_info();

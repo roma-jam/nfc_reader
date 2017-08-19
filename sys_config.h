@@ -35,7 +35,8 @@
 #define UART_STREAM_SIZE                                    32
 
 // ------------------------------- SPI -----------------------------------------------
-#define SPI_DEBUG_ERRORS                                    0
+#define SPI_DEBUG                                           1
+#define SPI_DEBUG_ERRORS                                    1
 
 //-------------------------------- USB -----------------------------------------------
 #define USB_EP_COUNT_MAX                                    4
