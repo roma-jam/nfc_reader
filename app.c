@@ -24,6 +24,7 @@
 #include "app_nfc.h"
 #include "config.h"
 #include "leds.h"
+#include <string.h>
 
 void app();
 
@@ -71,13 +72,12 @@ void app()
 
     app_init(&app);
     leds_init(&app);
-//    app_usb_init(&app);
+    //app_usb_init(&app);
 
     app_nfc_init(&app);
 
     sleep_ms(600);
     process_info();
-
 
     for (;;)
     {

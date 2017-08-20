@@ -9,7 +9,8 @@
 #define PN532_CONFIG_H_
 
 // =============================================================================
-#define PN_DEBUG                        1
+#define PN_DEBUG                        0
+#define PN_DEBUG_DATA_EXCHANGE          0
 
 // ================================ CONFIGURATION ==============================
 #define PN_SPI                          SPI_1

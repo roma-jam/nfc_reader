@@ -16,7 +16,7 @@
 #define STM32_I2C_DRIVER                        0
 #define STM32_SPI_DRIVER                        1
 #define STM32_UART_DRIVER                       1
-#define STM32_RTC_DRIVER                        0
+#define STM32_RTC_DRIVER                        1
 #define STM32_USB_DRIVER                        1
 //------------------------------ CORE ------------------------------------------------
 //Sizeof CORE process stack. Adjust, if monolith UART/USB/Analog/etc is used
@@ -61,7 +61,7 @@
 //------------------------------ TIMER -----------------------------------------------
 #define HPET_TIMER                              TIM_6
 //only required if no STM32_RTC_DRIVER is set
-#define SECOND_PULSE_TIMER                      TIM_3
+#define SECOND_PULSE_TIMER                      0
 //disable to save few bytes
 #define TIMER_IO                                1
 //------------------------------- ADC ------------------------------------------------
