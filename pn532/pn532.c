@@ -10,7 +10,10 @@
 #include "../rexos/userspace/pin.h"
 #include "../rexos/userspace/gpio.h"
 #include "../rexos/userspace/stdio.h"
+#include "../rexos/userspace/irq.h"
 #include "pn532.h"
+
+#include "../../CMSIS/Device/ST/STM32L1xx/Include/stm32l151xc.h"
 
 #define PN532_FRAME()       ((PN532_START_FRAME*)io_data(pn532->io))
 #define PN532_FRAME_DATA()  ((uint8_t*)(io_data(pn532->io) + sizeof(PN532_START_FRAME)))
@@ -33,7 +36,7 @@ static inline void pn532_power_on(PN532* pn532)
 {
     gpio_set_pin(PN_RST_PIN);
     sleep_ms(99);
-    pn532->state = PN532_STATE_IDLE;
+    pn532->state = PN532_STATE_FIRST_CMD;
 }
 
 static inline void pn532_power_off(PN532* pn532)
@@ -46,11 +49,45 @@ static inline void pn532_power_off(PN532* pn532)
 static inline void pn532_data_line_on()
 {
     gpio_reset_pin(PN_NSS_PIN);
+    sleep_ms(9);
 }
 
 static inline void pn532_data_line_off()
 {
+    sleep_ms(9);
     gpio_set_pin(PN_NSS_PIN);
+}
+
+static inline void pn532_irq_pin_clear()
+{
+    EXTI->PR  |=  1ul << GPIO_PIN(PN_IRQ_PIN);
+}
+
+static inline void pn532_irq_pin_enable()
+{
+    EXTI->IMR |= 1ul << GPIO_PIN(PN_IRQ_PIN);
+}
+
+static inline void pn532_irq_pin_disable()
+{
+    EXTI->IMR |= ~(1ul << GPIO_PIN(PN_IRQ_PIN));
+}
+
+static inline void pn532_irq_pin_isr(int vector, void* param)
+{
+    PN532* pn532 = (PN532*)param;
+
+    iprintd("irq\n");
+
+    pn532_irq_pin_clear();
+    pn532_irq_pin_disable();
+
+    if(pn532->state == PN532_STATE_ACK)
+    {
+        iprintd("ack got!\n");
+        pn532->state = PN532_STATE_DATA;
+    }
+
 }
 
 static inline void pn532_put_data_size(PN532* pn532, unsigned int data_size)
@@ -115,6 +152,13 @@ static inline void pn532_cmd(PN532* pn532, uint8_t code, unsigned int data_size,
     spi_write_data(PN_SPI, pn532->io);
     pn532_data_line_off();
 
+    if(pn532->state == PN532_STATE_FIRST_CMD)
+    {
+        pn532->state = PN532_STATE_IDLE;
+        return;
+    }
+
+    pn532_irq_pin_enable();
     pn532->state = PN532_STATE_ACK;
 }
 
@@ -123,6 +167,7 @@ unsigned int pn532_open_hw(PN532* pn532)
 #if (PN_DEBUG)
     printf("PN532 open\n");
 #endif // PN_DEBUG
+
     pn532->io = io_create(PN_MAX_CMD_SIZE);
     if(pn532->io == NULL)
         return 1;
@@ -130,6 +175,12 @@ unsigned int pn532_open_hw(PN532* pn532)
     io_reset(pn532->io);
 
     gpio_enable_pin(PN_IRQ_PIN, GPIO_MODE_IN_FLOAT);
+    pin_enable_exti(PN_IRQ_PIN, EXTI_FLAGS_FALLING);
+
+    irq_register(PN_IRQ_PIN_IRQn, pn532_irq_pin_isr, (void*)pn532);
+    NVIC_EnableIRQ(PN_IRQ_PIN_IRQn);
+    NVIC_SetPriority(PN_IRQ_PIN_IRQn, 14);
+
     gpio_enable_pin(PN_NSS_PIN, GPIO_MODE_OUT);
     gpio_enable_pin(PN_RST_PIN, GPIO_MODE_OUT);
     pn532_power_off(pn532);
@@ -146,11 +197,11 @@ unsigned int pn532_open_hw(PN532* pn532)
     pn532_cmd(pn532, PN_CMD_GET_FIRMWARE_VERSION, 0);                          // First Cmds will be discarted
     pn532_cmd(pn532, PN_CMD_GET_FIRMWARE_VERSION, 0);
 
-    pn532_cmd(pn532, PN_CMD_SAM_CONFIGURATION, 1, 0x01);                       // Disable SAM to calm PN: Normal mode, the SAM is not used
-    pn532_cmd(pn532, PN_CMD_RF_CONFIGURATION, 4, 0x05, 0x02, 0x01, 0x05);      // Setup RF config: One retry, ATR: once, PSL: once, Activation: once
-    pn532_cmd(pn532, PN_CMD_RF_CONFIGURATION, 4, 0x02, 0x00, 0x0B, 0x10);      // Setup RtrTimout: 0x0B - ATR_Res timeOut; 0x10 - TimeOutAnswer
-    pn532_cmd(pn532, PN_CMD_RF_CONFIGURATION, 2, 0x04, 0x00);                  // Setup RtrTimeOut: 0x00 - One Retry; 0xFF - Eternally
-    pn532_cmd(pn532, PN_CMD_RF_CONFIGURATION, 2, 0x01, 0x01);
+//    pn532_cmd(pn532, PN_CMD_SAM_CONFIGURATION, 1, 0x01);                       // Disable SAM to calm PN: Normal mode, the SAM is not used
+//    pn532_cmd(pn532, PN_CMD_RF_CONFIGURATION, 4, 0x05, 0x02, 0x01, 0x05);      // Setup RF config: One retry, ATR: once, PSL: once, Activation: once
+//    pn532_cmd(pn532, PN_CMD_RF_CONFIGURATION, 4, 0x02, 0x00, 0x0B, 0x10);      // Setup RtrTimout: 0x0B - ATR_Res timeOut; 0x10 - TimeOutAnswer
+//    pn532_cmd(pn532, PN_CMD_RF_CONFIGURATION, 2, 0x04, 0x00);                  // Setup RtrTimeOut: 0x00 - One Retry; 0xFF - Eternally
+//    pn532_cmd(pn532, PN_CMD_RF_CONFIGURATION, 2, 0x01, 0x01);
 
     return 0;
 }

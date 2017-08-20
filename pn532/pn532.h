@@ -14,6 +14,7 @@
 
 typedef enum {
     PN532_STATE_OFF = 0,
+    PN532_STATE_FIRST_CMD,
     PN532_STATE_IDLE,
     PN532_STATE_ACK,
     PN532_STATE_DATA,

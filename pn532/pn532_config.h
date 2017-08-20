@@ -9,13 +9,15 @@
 #define PN532_CONFIG_H_
 
 // =============================================================================
-#define PN_DEBUG                        0
-#define PN_DEBUG_DATA_EXCHANGE          0
+#define PN_DEBUG                        1
+#define PN_DEBUG_DATA_EXCHANGE          1
 
 // ================================ CONFIGURATION ==============================
 #define PN_SPI                          SPI_1
 
 #define PN_IRQ_PIN                      B1
+#define PN_IRQ_PIN_IRQn                 EXTI1_IRQn
+
 #define PN_NSS_PIN                      B0
 #define PN_RST_PIN                      A4
 #define PN_SCK_PIN                      A5
